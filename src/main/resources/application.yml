@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/stub_db
     username: admin
-    password: SportEkp2022#
+    password: password
     hikari:
       connectionTimeout: 30000
       idleTimeout: 600000
