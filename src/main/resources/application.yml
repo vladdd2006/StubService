@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: stub-manager
+  datasource:
+    url: jdbc:postgresql://localhost:5432/stub_db
+    username: admin
+    password: SportEkp2022#
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVERS:localhost:9092}
+    consumer:
+      group-id: stub-manager
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  packages-to-scan: com.example.managerstub.controller
+  show-actuator: true
+
+server:
+  port: ${PORT:8080}
+
+stub:
+  cache:
+    update-interval: 5000  # 5 секунд
+    dead-cache-hours: 1     # 1 час при dead cache
+
+kafka:
+  topics: stub-requests,stub-requests-grpc  # через запятую
+
+logging:
+  level:
+    com.stubmanager: INFO
+    org.springframework.web: WARN
+
+test:
+  check:
+    timeout: 5000  # таймаут проверки роута в мс
+  sync:
+    interval: 10000  # интервал синхронизации dead cache
